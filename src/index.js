@@ -1,17 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+function App() {
+    const [developer, setDeveloper] = useState({
+        language: 'python',
+        yearsExperience: 0,
+        isEmployed: false,
+    })
+
+    function handleChangeLanguage() {
+        setDeveloper({
+            language: 'javascript',
+            yearsExperience: 0
+        })
+    }
+
+    function handleChangeYearsExperience(event) {
+        setDeveloper({
+            ...developer,
+            yearsExperience: event.target.value
+        })
+    }
+
+    function handleToggleEmployment() {
+        setDeveloper(prevState => ({
+            ...prevState,
+            isEmployed: !prevState.isEmployed
+        }))
+    }
+
+    return (
+        <div>
+            <button onClick={handleToggleEmployment}>Toggle Employment Status</button>
+            <button onClick={handleChangeLanguage}>Change language</button>
+
+            <div>
+                <input
+                    type="number"
+                    onChange={handleChangeYearsExperience}
+                />
+            </div>
+
+            <p>I am learning {developer.language}</p>
+            <p>I have {developer.yearsExperience} years of experience</p>
+            <p>Employment status: {developer.isEmployed ? 'Employed' : 'Unemployed'}</p>
+        </div>
+    )
+}
+
+const rootNode = document.getElementById('root')
+ReactDOM.render(<App />, rootNode)
